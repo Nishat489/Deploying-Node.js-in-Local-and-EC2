@@ -1,0 +1,73 @@
+🚀 Deploying a Node.js Application on AWS EC2
+________________________________________
+🧾 Step 1: Clone the GitHub Repository
+Use the following command to clone a Node.js application from GitHub:
+git clone <repository-url>
+This command creates a local copy of the GitHub repository on your EC2 instance.
+Then navigate to the project directory:
+cd <repo-name>
+________________________________________
+🔐 Step 2: Configure Environment Variables
+Environment variables are used to securely store configuration data such as keys, ports, and domain names — keeping your code clean and secure.
+Create a .env file in the root of your project:
+DOMAIN="http://<your-ec2-public-ip>:3000"
+PORT=3000
+STATIC_DIR="./client"
+
+PUBLISHABLE_KEY="your_publishable_key"
+SECRET_KEY="your_secret_key"
+Replace keys with the ones obtained from Stripe (in test mode, if applicable).
+________________________________________
+⚙️ Step 3: Install Node.js and npm on EC2
+Before running the Node.js app, install Node.js and npm on your EC2 instance:
+curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs
+Check installation:
+node -v
+npm -v
+________________________________________
+📦 Step 4: Install Project Dependencies
+In your project folder, install all dependencies listed in package.json:
+npm install
+This will create a node_modules folder which includes all required packages.
+Optional: Fix known vulnerabilities (if any):
+npm audit fix
+________________________________________
+🚀 Step 5: Start the Application
+Run the application using:
+npm start
+You should see output indicating the app is running:
+Server listening on port: 3000
+You may access your app at: http://<your-ec2-public-ip>:3000
+________________________________________
+🔓 Step 6: Allow Port 3000 in EC2 Security Group
+To access your app from a browser:
+1.	Go to AWS EC2 Console
+2.	Select your EC2 instance → Click Security Groups
+3.	Edit Inbound Rules
+4.	Add a rule:
+o	Type: Custom TCP
+o	Port: 3000
+o	Source: Anywhere (or a specific IP)
+________________________________________
+👤 Step 7: IAM User (Optional but Recommended)
+If you're automating deployments or pushing code from EC2 to a GitHub repository, set up an IAM user in AWS:
+•	Go to IAM Console
+•	Create user with programmatic access
+•	Attach policies like:
+o	AmazonEC2FullAccess
+o	AmazonS3FullAccess (if needed)
+o	CloudWatchLogsFullAccess
+Save the Access Key and Secret Key securely.
+________________________________________
+✅ Summary
+Step	Action
+1	Clone the repo
+2	Set up .env with Stripe keys
+3	Install Node.js and npm
+4	Install dependencies via npm install
+5	Run app using npm start
+6	Open port 3000 in EC2 Security Group
+7	(Optional) Configure IAM for secure automation
+________________________________________
+
